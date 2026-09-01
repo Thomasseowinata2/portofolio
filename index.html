@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thomas Seowinata · Software &amp; Data Engineering</title>
+  <meta name="description" content="Portfolio of Thomas Seowinata, CS student focused on full-stack web applications and data/ML pipelines.">
+  
+  <!-- Font: Space Grotesk (700 & 900 weights only) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       NEO-BRUTALISM DESIGN SYSTEM TOKENS
+       ========================================================================== */
+    :root {
+      --bg-cream: #FFFDF5;
+      --ink-black: #000000;
+      --accent-red: #FF6B6B;
+      --accent-yellow: #FFD93D;
+      --accent-violet: #C4B5FD;
+      --white: #FFFFFF;
+
+      --font-main: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      
+      --border-thick: 4px solid var(--ink-black);
+      --border-hero: 6px solid var(--ink-black);
+      --border-thin: 2px solid var(--ink-black);
+
+      --shadow-sm: 4px 4px 0px 0px #000000;
+      --shadow-md: 8px 8px 0px 0px #000000;
+      --shadow-lg: 12px 12px 0px 0px #000000;
+      --shadow-xl: 16px 16px 0px 0px #000000;
+    }
+
+    /* Reset & Sharp Geometry (0px everywhere except pills) */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      border-radius: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-cream);
+      color: var(--ink-black);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-main);
+      font-size: 1.125rem;
+      line-height: 1.5;
+      background-color: var(--bg-cream);
+      color: var(--ink-black);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Tactile Graph Paper & Halftone Patterns */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(0, 0, 0, 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.07) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Accessibility Skip Link */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 1rem;
+      background: var(--accent-yellow);
+      color: var(--ink-black);
+      border: var(--border-thick);
+      box-shadow: var(--shadow-sm);
+      padding: 0.75rem 1.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      z-index: 9999;
+      transition: top 0.1s ease;
+    }
+    .skip-link:focus {
+      top: 1rem;
+      outline: none;
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ==========================================================================
+       MARQUEE TICKER TAPE
+       ========================================================================== */
+    .ticker-tape {
+      background: var(--ink-black);
+      color: var(--accent-yellow);
+      border-bottom: var(--border-thick);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 0.5rem 0;
+      font-weight: 900;
+      font-size: 0.875rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    .ticker-content {
+      display: inline-block;
+      animation: ticker 25s linear infinite;
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ==========================================================================
+       NAVIGATION
+       ========================================================================== */
+    .topbar {
+      position: sticky;
+      top: 0;
+      background: var(--bg-cream);
+      border-bottom: var(--border-thick);
+      z-index: 100;
+    }
+
+    .topbar-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .brand {
+      background: var(--accent-yellow);
+      border: var(--border-thick);
+      box-shadow: var(--shadow-sm);
+      padding: 0.4rem 1rem;
+      font-weight: 900;
+      font-size: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      transform: rotate(-1deg);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.1s ease;
+    }
+
+    .brand:hover {
+      transform: rotate(1deg) scale(1.02);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      display: inline-block;
+      font-weight: 900;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.4rem 0.8rem;
+      border: var(--border-thick);
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.1s ease;
+    }
+
+    .nav-links a:hover {
+      background: var(--accent-red);
+      color: var(--white);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-links a:active {
+      transform: translate(2px, 2px);
+      box-shadow: none;
+    }
+
+    /* ==========================================================================
+       HERO SECTION
+       ========================================================================== */
+    .hero {
+      padding: 5rem 0 4rem;
+      position: relative;
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    @media (min-width: 900px) {
+      .hero-layout {
+        grid-template-columns: 1.25fr 0.75fr;
+      }
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--accent-yellow);
+      border: var(--border-thick);
+      box-shadow: var(--shadow-sm);
+      padding: 0.35rem 1rem;
+      border-radius: 9999px !important;
+      font-size: 0.875rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.75rem;
+      transform: rotate(-1.5deg);
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      background: #00E676;
+      border: 2px solid var(--ink-black);
+      border-radius: 9999px !important;
+      box-shadow: 1px 1px 0px #000;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.75rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+      margin: 0 0 1.75rem;
+    }
+
+    .hero h1 span.hollow {
+      color: transparent;
+      -webkit-text-stroke: 3px var(--ink-black);
+      display: block;
+    }
+
+    .hero-bio {
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.6;
+      background: var(--white);
+      border: var(--border-thick);
+      box-shadow: var(--shadow-md);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Hero Graphic / Sticker Collage */
+    .hero-sticker-zone {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      position: relative;
+    }
+
+    .sticker-card {
+      border: var(--border-thick);
+      box-shadow: var(--shadow-md);
+      padding: 1.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .sticker-card.violet {
+      background: var(--accent-violet);
+      transform: rotate(2deg);
+    }
+
+    .sticker-card.red {
+      background: var(--accent-red);
+      color: var(--white);
+      transform: rotate(-2deg);
+    }
+
+    .sticker-title {
+      font-size: 1.75rem;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ==========================================================================
+       SECTION TITLES & BUTTONS
+       ========================================================================== */
+    section {
+      padding: 4.5rem 0;
+      border-top: var(--border-hero);
+    }
+
+    .section-title-wrap {
+      margin-bottom: 3rem;
+      display: inline-block;
+    }
+
+    .section-title {
+      display: inline-block;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+      background: var(--accent-yellow);
+      border: var(--border-thick);
+      box-shadow: var(--shadow-md);
+      padding: 0.5rem 1.5rem;
+      margin: 0;
+      transform: rotate(-1deg);
+    }
+
+    /* ==========================================================================
+       TECHNICAL TOOLKIT (SKILLS)
+       ========================================================================== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+    }
+    @media (min-width: 640px) {
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .skill-card {
+      background: var(--white);
+      border: var(--border-thick);
+      box-shadow: var(--shadow-md);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.15s ease;
+    }
+
+    .skill-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: var(--shadow-lg);
+      background: var(--bg-cream);
+    }
+
+    .skill-card h3 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--accent-violet);
+      border: var(--border-thin);
+      padding: 0.35rem 0.75rem;
+      margin: 0 0 1rem;
+      align-self: flex-start;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .skill-card p {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       FEATURED PROJECTS
+       ========================================================================== */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .project-card {
+      background: var(--white);
+      border: var(--border-thick);
+      box-shadow: var(--shadow-lg);
+      padding: 2.25rem;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .project-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-header h3 {
+      font-size: 2.25rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .project-badge-tag {
+      background: var(--ink-black);
+      color: var(--white);
+      font-weight: 900;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      padding: 0.35rem 0.75rem;
+      letter-spacing: 0.1em;
+    }
+
+    .project-role {
+      font-size: 1.15rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: var(--accent-red);
+      margin: 0 0 1.25rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag {
+      font-size: 0.8125rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--accent-yellow);
+      border: var(--border-thin);
+      padding: 0.25rem 0.65rem;
+      box-shadow: 2px 2px 0px #000;
+    }
+
+    .project-details {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .project-details li {
+      font-weight: 700;
+      font-size: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .project-details li::before {
+      content: "■";
+      font-size: 0.85rem;
+      margin-top: 0.15rem;
+      color: var(--ink-black);
+    }
+
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      align-items: center;
+    }
+
+    .project-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--white);
+      color: var(--ink-black);
+      border: var(--border-thick);
+      box-shadow: var(--shadow-sm);
+      padding: 0.6rem 1.2rem;
+      font-weight: 900;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.1s ease;
+    }
+
+    .project-btn:hover {
+      background: var(--accent-yellow);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .project-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: none;
+    }
+
+    .note {
+      display: inline-block;
+      font-weight: 900;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      background: var(--bg-cream);
+      border: 2px dashed var(--ink-black);
+      padding: 0.5rem 1rem;
+    }
+
+    /* ==========================================================================
+       CONTACT SECTION
+       ========================================================================== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .contact-link {
+      background: var(--accent-red);
+      color: var(--white);
+      border: var(--border-hero);
+      box-shadow: var(--shadow-lg);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 180px;
+      transition: all 0.1s ease;
+      transform: rotate(-1deg);
+    }
+
+    .contact-link:hover {
+      background: var(--ink-black);
+      transform: translate(-3px, -3px) rotate(0deg);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .contact-link:active {
+      transform: translate(3px, 3px);
+      box-shadow: none;
+    }
+
+    .contact-label {
+      font-size: 0.875rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: var(--ink-black);
+      color: var(--white);
+      padding: 0.25rem 0.6rem;
+      align-self: flex-start;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .contact-value {
+      font-size: 2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ==========================================================================
+       FOOTER
+       ========================================================================== */
+    footer {
+      background: var(--accent-yellow);
+      border-top: var(--border-hero);
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    footer p {
+      margin: 0;
+      font-weight: 900;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Accessible Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Ticker Tape -->
+  <div class="ticker-tape" aria-hidden="true">
+    <div class="ticker-content">
+      ★ THOMAS SEOWINATA ★ FULL-STACK WEB ARCHITECTURE ★ DATA &amp; ML PIPELINES ★ API ROUTING &amp; MICROSERVICES ★ DOCKER &amp; DISTRIBUTED WORKFLOWS ★ THOMAS SEOWINATA ★ FULL-STACK WEB ARCHITECTURE ★ DATA &amp; ML PIPELINES ★
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="topbar">
+    <div class="wrap">
+      <div class="topbar-inner">
+        <a href="#" class="brand">
+          <span>⚡</span>
+          <span>Thomas Seowinata</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <div class="wrap">
+
+      <!-- Hero -->
+      <header class="hero">
+        <div class="hero-layout">
+          <div>
+            <div class="status-badge">
+              <span class="status-dot"></span>
+              <span>Available for 2026 Opportunities</span>
+            </div>
+
+            <h1>
+              Building robust web apps
+              <span class="hollow">&amp; data pipelines.</span>
+            </h1>
+
+            <p class="hero-bio">
+              Computer Science student at BINUS University. I specialize in backend API development, data processing workflows, and responsive frontend systems.
+            </p>
+          </div>
+
+          <!-- Neo-Brutalist Sticker Stack -->
+          <div class="hero-sticker-zone">
+            <div class="sticker-card violet">
+              <div class="sticker-title">FULL-STACK &amp; ML</div>
+              <div>Robust microservices, containerization, and data extraction.</div>
+            </div>
+            <div class="sticker-card red">
+              <div class="sticker-title">DISCIPLINE</div>
+              <div>Deterministic pipelines, zero-fluff architecture.</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Skills Section -->
+      <section id="skills">
+        <div class="section-title-wrap">
+          <h2 class="section-title">Technical Toolkit</h2>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill-card">
+            <h3>Languages</h3>
+            <p>Python, Java, PHP, JavaScript, TypeScript, SQL, HTML/CSS</p>
+          </div>
+
+          <div class="skill-card">
+            <h3>Frameworks</h3>
+            <p>React, Spring Boot, Laravel, Flask</p>
+          </div>
+
+          <div class="skill-card">
+            <h3>Infrastructure &amp; Tools</h3>
+            <p>Docker, Git, REST APIs, PostgreSQL, MySQL, SQLite</p>
+          </div>
+
+          <div class="skill-card">
+            <h3>Focus Areas</h3>
+            <p>Full-stack architecture, ML model workflows, data exploration</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects">
+        <div class="section-title-wrap">
+          <h2 class="section-title">Featured Projects</h2>
+        </div>
+
+        <div class="project-list">
+          
+          <!-- Project 01 -->
+          <article class="project-card">
+            <div class="project-header">
+              <h3>MindSync</h3>
+              <span class="project-badge-tag">NO. 01</span>
+            </div>
+            <p class="project-role">Behavioral data analytics platform</p>
+            
+            <div class="tags">
+              <span class="tag">React</span>
+              <span class="tag">Spring Boot</span>
+              <span class="tag">Flask</span>
+              <span class="tag">Docker</span>
+            </div>
+
+            <ul class="project-details">
+              <li>Architected backend logging and modular API routing across microservices.</li>
+              <li>Set up containerized environments using Docker Compose for streamlined local testing.</li>
+              <li>Integrated machine learning model outputs directly into web dashboard views.</li>
+            </ul>
+
+            <div class="project-links">
+              <a href="https://github.com/ji-tech-2/mindsync-screening" target="_blank" rel="noopener" class="project-btn">
+                Frontend &amp; Screening ↗
+              </a>
+              <a href="https://github.com/ji-tech-2/mindsync-model-training" target="_blank" rel="noopener" class="project-btn">
+                Model Pipeline ↗
+              </a>
+              <a href="https://github.com/ji-tech-2/mindsync-compose" target="_blank" rel="noopener" class="project-btn">
+                Docker Compose ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 02 -->
+          <article class="project-card">
+            <div class="project-header">
+              <h3>Tanemin</h3>
+              <span class="project-badge-tag">NO. 02</span>
+            </div>
+            <p class="project-role">Plant collection manager</p>
+            
+            <div class="tags">
+              <span class="tag">Laravel</span>
+              <span class="tag">PHP</span>
+              <span class="tag">SQLite</span>
+              <span class="tag">Blade</span>
+            </div>
+
+            <ul class="project-details">
+              <li>Built MVC architecture with dynamic resource listings and database migrations.</li>
+              <li>Implemented secure CRUD operations and client-side form handling.</li>
+            </ul>
+
+            <div class="project-links">
+              <span class="note">Private repository · Details available on request</span>
+            </div>
+          </article>
+
+          <!-- Project 03 -->
+          <article class="project-card">
+            <div class="project-header">
+              <h3>Bank Customer Churn Analysis</h3>
+              <span class="project-badge-tag">NO. 03</span>
+            </div>
+            <p class="project-role">Data mining and segmentation pipeline</p>
+            
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">K-Means</span>
+              <span class="tag">DBSCAN</span>
+              <span class="tag">Association Rules</span>
+            </div>
+
+            <ul class="project-details">
+              <li>Executed full KDD pipeline: data cleaning, feature engineering, and unsupervised clustering.</li>
+              <li>Identified behavioral churn indicators and synthesized results into visual reports.</li>
+            </ul>
+
+            <div class="project-links">
+              <a href="https://github.com/Kelompok4-PPTI20/data-mining" target="_blank" rel="noopener" class="project-btn">
+                View Repository ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 04 -->
+          <article class="project-card">
+            <div class="project-header">
+              <h3>ML in Public Health Survey Analysis</h3>
+              <span class="project-badge-tag">NO. 04</span>
+            </div>
+            <p class="project-role">Systematic literature review and classifier benchmarking</p>
+            
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">Scikit-Learn</span>
+              <span class="tag">Literature Review</span>
+            </div>
+
+            <ul class="project-details">
+              <li>Benchmarked baseline ML classification models across standardized public health datasets.</li>
+              <li>Evaluated performance metrics across models for an academic presentation and poster.</li>
+            </ul>
+
+            <div class="project-links">
+              <a href="https://github.com/Thomasseowinata2/diabetes-prediction" target="_blank" rel="noopener" class="project-btn">
+                View Code ↗
+              </a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact">
+        <div class="section-title-wrap">
+          <h2 class="section-title">Get in Touch</h2>
+        </div>
+
+        <div class="contact-grid">
+          <a href="https://github.com/Thomasseowinata2" target="_blank" rel="noopener" class="contact-link">
+            <span class="contact-label">GitHub // Personal</span>
+            <div class="contact-value">
+              <span>Thomasseowinata2</span>
+              <span>↗</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <p>© 2026 Thomas Seowinata</p>
+    </div>
+  </footer>
+
+</body>
+</html>
